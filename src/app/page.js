@@ -1,8 +1,9 @@
-import Navbar from "@/Components/Common/Navbar/Navbar";
+
 import HomeHeroSection from "@/Components/HeroSection/HomeHeroSection";
-import CompanyFormation from "@/Components/HomePage/CompanyFormation";
 import FormationandMeeting from "@/Components/HomePage/FormationandMeeting";
-import Image from "next/image";
+import ProjectileCarousel from "@/Components/HomePage/ProjectileCarousel";
+import { logos } from "@/data/CarouselData";
+
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
 <div>
   <HomeHeroSection/>
   <FormationandMeeting/>
+      <ProjectileCarousel logos={logos} speed={0.8} />
 </div>
    </>
   );
