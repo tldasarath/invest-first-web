@@ -23,7 +23,7 @@ export default function GradientCard({
             });
         };
 
-        updateSize(); // Initial
+        updateSize();
         const observer = new ResizeObserver(updateSize);
         observer.observe(el);
 
@@ -55,23 +55,51 @@ export default function GradientCard({
 
 
 
-    const cr = 40; // Larger Card Corner Radius for premium look
-    const nr = 40; // Notch Inner Radius
+    // Responsive Shape Calculations based on width
+    // Reference: Width 284px
+    // Original Notch: 120px -> ~0.42
+    // Original Shoulder: 60px -> ~0.21
+    // Original Corner Radius: 40px -> ~0.14
+    // Original Notch Radius: 20px -> ~0.07
 
-    // Notch Dimensions
-    const notchW = 120;
-    const notchH = 120;
+    const scaleBase = 284;
+    // Use current width to scale, but clamp minimal size if needed? 
+    // Usually simple proportion is enough if aspect ratio is preserved.
+
+    // We can just use the width and apply ratios.
+    // However, if height changes disproportionately, relying only on width is safer for X-axis features (notch width, shoulder).
+    // For Y-axis (notch height), we should probably use width ratio too to keep the notch square, or height ratio?
+    // Usually notch shape is preferred to remain square-ish or fixed aspect. Let's stick to width-based scaling for notch size to keep it uniform.
+
+    const ratio = width / scaleBase;
+
+    // Calculate dynamic values
+    // If width is 0 (initial render), default to base values
+    const safeWidth = width || 284;
+
+    const notchW = safeWidth * 0.29;
+    const notchH = safeWidth * 0.27; // Keep notch square relative to width
+    const shoulder = safeWidth * 0.19;
+    const cr = safeWidth * 0.10;
+    const nr = safeWidth * 0.07;
 
     // Path Points (Clockwise):
+    const notchRight = width - shoulder;
+    const notchLeft = notchRight - notchW;
+
     const pathData = `
     M 0,${cr}
     A ${cr},${cr} 0 0 1 ${cr},0
-    L ${width - notchW - nr}, 0
-    A ${nr},${nr} 0 0 1 ${width - notchW}, ${nr}
-    L ${width - notchW}, ${notchH - nr}
-    A ${nr},${nr} 0 0 0 ${width - notchW + nr}, ${notchH}
-    L ${width - cr}, ${notchH}
-    A ${cr},${cr} 0 0 1 ${width}, ${notchH + cr}
+    L ${notchLeft - nr}, 0
+    A ${nr},${nr} 0 0 1 ${notchLeft}, ${nr}
+    L ${notchLeft}, ${notchH - nr}
+    A ${nr},${nr} 0 0 0 ${notchLeft + nr}, ${notchH}
+    L ${notchRight - nr}, ${notchH}
+    A ${nr},${nr} 0 0 0 ${notchRight}, ${notchH - nr}
+    L ${notchRight}, ${nr}
+    A ${nr},${nr} 0 0 1 ${notchRight + nr}, 0
+    L ${width - cr}, 0
+    A ${cr},${cr} 0 0 1 ${width}, ${cr}
     L ${width}, ${height - cr}
     A ${cr},${cr} 0 0 1 ${width - cr}, ${height}
     L ${cr}, ${height}
@@ -87,38 +115,29 @@ export default function GradientCard({
         if (!path || !width || !height) return;
 
         const length = path.getTotalLength();
-        // Ray length: ~40% of total length? Or fixed pixels?
-        // Let's make it proportional so it looks consistent on resize
         const rayLength = length * 0.4;
 
-        // Reset
         gsap.killTweensOf(path);
 
-        // Setup DashArray: [dash, gap]
-        // We want a gap big enough that we only see one ray (or we can loop cleanly)
-        // dash = rayLength
-        // gap = length (so minimal overlap)
         gsap.set(path, {
             strokeDasharray: `${rayLength} ${length}`,
             strokeDashoffset: rayLength,
             opacity: 1
         });
 
-        // Animate Offset
-        // Move from rayLength to -length (covers the full loop)
         gsap.to(path, {
             strokeDashoffset: -length,
-            duration: 2.5, // 2.5s per loop
+            duration: 2.5,
             ease: "none",
             repeat: -1
         });
 
-    }, [width, height, pathData]); // Re-run when shape changes
+    }, [width, height, pathData]);
 
     return (
         <div
             ref={containerRef}
-            className={`relative w-full max-w-md aspect-[1/1] ${className}`}
+            className={`relative w-full max-w-[284px] aspect-[284/237] ${className}`}
             style={{ overflow: 'visible' }}
         >
             <svg
@@ -150,22 +169,26 @@ export default function GradientCard({
                     d={pathData}
                     fill="none"
                     stroke="url(#cardBorderGrad)"
-                    strokeWidth="4"
-                    strokeLinecap="round" // Soft ends for the ray
+                    strokeWidth="5"
+                    strokeLinecap="round"
                 />
             </svg>
 
             {/* Content */}
-            <div className="relative w-full h-full p-8 flex flex-col justify-end z-10">
+            <div className="relative w-full h-full p-1 md:p-4 flex flex-col justify-end z-10">
 
                 {/* Logo in Notch Area */}
                 {/* Positioned absolutely to match the SVG notch */}
                 <div
-                    className="absolute top-0 right-0 flex items-center justify-center"
-                    style={{ width: notchW, height: notchH }}
+                    className="absolute top-0 flex items-center justify-center"
+                    style={{
+                        width: notchW,
+                        height: notchH,
+                        right: shoulder
+                    }}
                 >
                     {/* Logo Placeholder - Dropbox style */}
-                    <div className="w-16 h-16 text-[#3b82f6] drop-shadow-lg filter">
+                    <div className="w-10 md:w-16 h-10 md:h-16 text-[#3b82f6] drop-shadow-lg filter">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M7 3l5 3.33L17 3l-5 3.33L7 3zm10 10l-5-3.33L7 13l5 3.33 5-3.33zm0-6.67L12 9.67 7 6.33 2 9.67 7 13l5-3.33 5 3.33 5-3.33-5-3.33zM7 13.67l5 3.33 5-3.33v3.33l-5 3.33-5-3.33v-3.33z" />
                         </svg>
@@ -173,11 +196,11 @@ export default function GradientCard({
                 </div>
 
                 <div className="mb-4">
-                    {/* "500+" Text */}
-                    <h1 className="text-6xl font-bold text-white tracking-tighter shadow-lg">
+
+                    <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter shadow-lg">
                         {count}
-                    </h1>
-                    <p className="text-xl text-blue-400 font-medium mt-2">
+                    </h2>
+                    <p className="text-lg md:text-xl text-blue-400 font-medium mt-2">
                         {label}
                     </p>
                 </div>
