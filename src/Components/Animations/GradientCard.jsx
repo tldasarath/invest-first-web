@@ -127,7 +127,7 @@ export default function GradientCard({
 
         gsap.to(path, {
             strokeDashoffset: -length,
-            duration: 2.5,
+            duration: 6,
             ease: "none",
             repeat: -1
         });
@@ -137,7 +137,7 @@ export default function GradientCard({
     return (
         <div
             ref={containerRef}
-            className={`relative w-full max-w-[284px] aspect-[284/237] ${className}`}
+            className={`relative w-full  aspect-[284/277] ${className}`}
             style={{ overflow: 'visible' }}
         >
             <svg
@@ -146,7 +146,7 @@ export default function GradientCard({
                 viewBox={`0 0 ${width} ${height}`}
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none  "
             >
                 <defs>
                     <linearGradient id="cardBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -158,7 +158,7 @@ export default function GradientCard({
                 {/* Background Fill (Dark) and Base Border */}
                 <path
                     d={pathData}
-                    fill="#0a0a0a"
+                    fill="#131517"
                     stroke="rgba(255,255,255,0.1)"
                     strokeWidth="2"
                 />
@@ -169,13 +169,13 @@ export default function GradientCard({
                     d={pathData}
                     fill="none"
                     stroke="url(#cardBorderGrad)"
-                    strokeWidth="5"
+                    strokeWidth="4"
                     strokeLinecap="round"
                 />
             </svg>
 
             {/* Content */}
-            <div className="relative w-full h-full p-1 md:p-4 flex flex-col justify-end z-10">
+            <div className="relative w-full h-full p-1 md:p-4 flex flex-col justify-end z-10 ">
 
                 {/* Logo in Notch Area */}
                 {/* Positioned absolutely to match the SVG notch */}

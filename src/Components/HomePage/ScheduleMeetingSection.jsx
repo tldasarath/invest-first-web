@@ -1,12 +1,50 @@
-"use client"
+"use client";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import Container from "../Common/Layout/Contianer";
-import { useState } from "react";
 import GradientBorderSvg from "./GradientBorderSvg";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scheduleContent } from "@/data/MeetingData";
+
 
 export default function ScheduleMeetingSection() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const leftCardRef = useRef(null);
+  const rightCardRef = useRef(null);
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const animateCard = (ref) => {
+        if (ref.current) {
+          gsap.fromTo(
+            ref.current,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 3,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: ref.current,
+                start: "top 85%",
+                toggleActions: "play reverse play reverse",
+              },
+            }
+          );
+        }
+      };
+
+      animateCard(leftCardRef);
+      animateCard(rightCardRef);
+    }); // Scope not strictly needed if we use refs directly, but good practice. Pass main container ref if available, or just empty.
+
+    return () => ctx.revert(); // Cleanup
+  }, []);
+
   const handleDateClick = (date) => {
     setSelectedDate(date);
     setIsOpen(true);
@@ -129,19 +167,19 @@ ${formData.purpose}
       <Container>
         <div className="relative max-w-7xl mx-auto">
           <GradientBorderSvg />
-          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-1 rounded-3xl items-stretch">
+          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-1 rounded-3xl items-stretch">
 
             {/* ================= LEFT CARD ================= */}
-            <div className="relative rounded-3xl flex flex-col overflow-hidden h-full">
+            <div ref={leftCardRef} className="relative rounded-3xl flex flex-col overflow-hidden h-full">
 
               {/* 🔹 TOP PANEL */}
-              <div className="flex-1 p-11 bg-[#000F2B] rounded-bl-3xl">
+              <div className="flex-1 p-8 bg-[#000F2B] rounded-bl-3xl">
                 <h2 className="text-4xl md:text-[2.5rem] font-semibold text-white mb-4">
-                  Schedule Meeting
+                  {scheduleContent.leftCard.heading}
                 </h2>
 
                 <p className="text-sm md:text-base leading-relaxed max-w-md text-slate-300">
-                  Start your business journey with Invest First through expert business setup services UAE tailored to your goals. Our specialists support company formation, licensing, visas, and banking, ensuring compliance, clarity, and a seamless setup process from start to finish.
+                  {scheduleContent.leftCard.description}
                 </p>
               </div>
 
@@ -149,7 +187,7 @@ ${formData.purpose}
               <div className="flex-1 flex h-full flex-col md:flex-row items-stretch">
 
                 {/* ───────── CONSULTANT ───────── */}
-                <div className="flex-1 h-full">
+                <div className="md:flex-1 w-full">
                   <div className="flex h-full overflow-hidden rounded-tl-3xl rounded-bl-3xl bg-[#000F2B] isolate">
                     <div className="flex-[0.8] flex flex-col items-center justify-center">
                       <div className="bg-black w-full p-3 flex flex-col overflow-hidden rounded-t-3xl">
@@ -172,7 +210,27 @@ ${formData.purpose}
                           </p>
                           <span className="text-blue-400 text-base"> →</span>
                         </div>
+                        <div className="block md:hidden flex flex-col pt-4 gap-4">
+                          <button className="flex w-full items-center gap-3 bg-[#E6F5FA] text-black px-8 py-4 rounded-2xl text-lg font-medium">
+                            <Image
+                              src="/assets/images/icons/whatsapp.png"
+                              alt="Chat"
+                              width={30}
+                              height={30}
+                            />
+                            Chat Now
+                          </button>
 
+                          <button className="flex w-full items-center gap-5 bg-[#0b1328] text-white px-8 py-4 rounded-2xl text-lg font-medium">
+                            <Image
+                              src="/assets/images/icons/call.png"
+                              alt="Call"
+                              width={25}
+                              height={25}
+                            />
+                            Call Now
+                          </button>
+                        </div>
                       </div>
                     </div>
 
@@ -185,19 +243,19 @@ ${formData.purpose}
                 </div>
 
                 {/* ───────── BUTTONS ───────── */}
-                <div className="flex-1 h-full flex flex-row items-stretch">
+                <div className="md:flex-1 h-full flex flex-row items-stretch">
 
                   {/* LEFT — 80% */}
                   <div className="w-[85%] bg-[#ffff]  pb-0 h-full">
                     <div className="w-full  bg-[#000F2B]  h-full flex flex-col">
 
                       {/* TOP — 50% */}
-                      <div className="flex-1 flex items-start">
+                      <div className="hidden md:flex flex-1 items-start">
 
                       </div>
 
                       {/* BOTTOM — 50% */}
-                      <div className="flex flex-col justify-center items-center p-4 gap-4  bg-black rounded-t-3xl flex-1">
+                      <div className="hidden md:flex flex-col justify-center items-center p-4 gap-4 bg-black rounded-t-3xl flex-1">
                         <button className="flex w-full items-center gap-3 bg-[#E6F5FA] text-black px-8 py-4 rounded-2xl text-lg font-medium">
                           <Image
                             src="/assets/images/icons/whatsapp.png"
@@ -234,18 +292,18 @@ ${formData.purpose}
             </div>
 
             {/* ================= RIGHT CARD ================= */}
-            <div className="rounded-[28px] overflow-hidden flex items-stretch h-full isolate">
+            <div ref={rightCardRef} className="rounded-[28px] overflow-hidden flex items-stretch h-full isolate">
 
               {/* LEFT — 90% */}
-              <div className="bg-[#660033] flex-[0.9] flex flex-col h-full">
+              <div className="bg-[#660033] md:flex-[0.85] flex-[0.8] flex flex-col h-full">
 
-                <div className="flex-[0.8] p-10">
+                <div className="flex-[0.8] p-8">
                   <h2 className="text-4xl md:text-[2.5rem] font-semibold mb-4">
-                    Schedule a Call
+                    {scheduleContent.rightCard.heading}
                   </h2>
 
                   <p className="text-sm md:text-base leading-relaxed max-w-md">
-                    Prefer a quick call instead? Choose your preferred date and time to connect with Invest First specialists. We provide end-to-end business setup services across the UAE, advising on legal requirements, licensing, timelines, costs, and company structures aligned with your goals, budget, and long-term growth plans, ensuring a smooth, compliant, and efficient setup journey from initial consultation to post-incorporation support for new and expanding businesses.
+                    {scheduleContent.rightCard.description}
                   </p>
                 </div>
 
@@ -255,12 +313,12 @@ ${formData.purpose}
                   </div>
 
                   <div className="flex-[0.5] flex flex-col">
-                    <div className="flex-[0.5]" />
-                    <div className="flex-[0.5] flex justify-center items-end">
+                    <div className="md:flex-[0.5] flex-[0.3]" />
+                    <div className="md:flex-[0.5] flex-[0.7] flex justify-center items-end">
                       <div className="w-full bg-[#660033] overflow-hidden">
                         <div className="bg-[#020e27] rounded-t-3xl w-full max-w-sm p-4">
                           <button onClick={() => handleDateClick()}
-                            className="w-full bg-[#122130] text-white py-3 rounded-full flex items-center justify-center gap-3">
+                            className="w-full bg-[#122130] text-white py-3 px-3 rounded-3xl flex items-center justify-center gap-3">
                             Schedule Meeting →
                           </button>
                         </div>
@@ -276,11 +334,11 @@ ${formData.purpose}
               </div>
 
               {/* RIGHT — 10% */}
-              <div className="flex-[0.1] flex flex-col items-stretch overflow-hidden isolate">
-                <div className="flex-[0.2]">
+              <div className="md:flex-[0.15] flex-[0.2] flex flex-col items-stretch overflow-hidden isolate">
+                <div className="md:flex-[0.1] flex-[0.2] lg:flex-[0.2]">
                   <div className="bg-[#660033] rounded-br-3xl h-full relative -left-1" />
                 </div>
-                <div className="flex-[0.6] bg-[#660033] overflow-hidden">
+                <div className="md:flex-[0.8] flex-[0.6] lg:flex-[0.6] bg-[#660033] overflow-hidden">
                   <div className="bg-[#020e27] w-full h-full rounded-tl-3xl rounded-bl-3xl flex items-center justify-center">
                     <div className="rounded-2xl p-3 space-y-2">
                       {dates.map((date, i) => {
@@ -314,7 +372,7 @@ ${formData.purpose}
 
 
 
-                <div className="flex-[0.2]">
+                <div className="md:flex-[0.1] flex-[0.2] lg:flex-[0.2]">
                   <div className="bg-[#660033] rounded-br-3xl rounded-tr-3xl h-full relative -left-1" />
                 </div>
               </div>

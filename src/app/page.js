@@ -1,4 +1,5 @@
 
+import Footer from "@/Components/Common/Footer/Footer";
 import HomeHeroSection from "@/Components/HeroSection/HomeHeroSection";
 import AboutUsection from "@/Components/HomePage/AboutUsection";
 import FormationandMeeting from "@/Components/HomePage/FormationandMeeting";
@@ -13,9 +14,9 @@ export default function Home() {
             <div>
               <HomeHeroSection  />
               <FormationandMeeting  />
-
-        <AboutUsection/>
-        <LicenseCategorySection />
+              <AboutUsection/>
+              <LicenseCategorySection />
+              <Footer/>
             </div>
      </>
   );

@@ -44,3 +44,8 @@ body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
 }
+.fill-word {
+  display: inline;
+  white-space: normal;
+}
+
