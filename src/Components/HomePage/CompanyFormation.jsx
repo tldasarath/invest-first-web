@@ -310,7 +310,7 @@ export default function CompanyFormation() {
       <Container>
         <div
           ref={containerRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-7xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 "
         >
           {formationData.map((item, index) => {
             const isFreezone = item.type === "freezone";

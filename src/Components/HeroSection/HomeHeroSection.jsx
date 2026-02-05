@@ -102,7 +102,7 @@ export default function HomeHeroSection() {
       </div>
 
       <Container>
-        <div className="relative z-20 min-h-screen max-w-7xl mx-auto  grid grid-cols-1 lg:grid-cols-2 ">
+        <div className="relative z-20 min-h-screen   grid grid-cols-1 lg:grid-cols-2 ">
 
           {/* LEFT COLUMN */}
           <div className="flex items-center lg:items-end  pb-0 lg:pb-24 order-2 lg:order-1">

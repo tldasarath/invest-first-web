@@ -165,7 +165,7 @@ ${formData.purpose}
   return (
     <section className=" relative w-full py-10 md:py-20">
       <Container>
-        <div className="relative max-w-7xl mx-auto">
+        <div className="relative ">
           <GradientBorderSvg />
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-1 rounded-3xl items-stretch">
 

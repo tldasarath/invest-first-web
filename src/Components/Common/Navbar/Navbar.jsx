@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, Menu, X } from "lucide-react"
@@ -17,11 +17,46 @@ const navItems = [
 export default function Navbar() {
   const [active, setActive] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== "undefined") {
+        if (window.scrollY > lastScrollY && window.scrollY > 50) {
+          // if scroll down and not at top, hide
+          setIsVisible(false)
+        } else {
+          // if scroll up or at top, show
+          setIsVisible(true)
+        }
+
+        // Add background if scrolled more than 20px
+        setIsScrolled(window.scrollY > 20)
+
+        setLastScrollY(window.scrollY)
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", controlNavbar)
+      return () => {
+        window.removeEventListener("scroll", controlNavbar)
+      }
+    }
+  }, [lastScrollY])
 
   return (
-    <div className="fixed top-6 z-50 w-full">
+    <div
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${isVisible ? "translate-y-0" : "-translate-y-[150%]"
+        } ${isScrolled
+          ? "bg-gradient-to-r from-[#05030f]/90 via-[#0b0718]/90 to-[#05030f]/90 backdrop-blur-md shadow-lg py-2"
+          : "bg-transparent py-6"
+        }`}
+    >
       <Container>
-        <div className="flex items-center justify-between max-w-7xl mx-auto py-4 gap-4">
+        <div className="flex items-center justify-between  py-4 gap-4">
           <Logo />
           <DesktopNav active={active} setActive={setActive} />
           <MobileToggle open={mobileOpen} setOpen={setMobileOpen} />
@@ -38,7 +73,7 @@ export default function Navbar() {
 function Logo() {
   return (
     <Link href="/" className="flex items-center">
-<div className="relative h-15 w-[160px]  lg:w-[220px] flex-shrink-0">
+      <div className="relative h-15 w-[160px]  lg:w-[220px] flex-shrink-0">
         <Image
           src="/assets/images/logo/invest-first.png"
           alt="Invest First Logo"
@@ -55,7 +90,7 @@ function Logo() {
 
 function DesktopNav({ active, setActive }) {
   return (
-<nav className="hidden md:flex max-w-full overflow-hidden items-center gap-4 lg:gap-8 xl:gap-12 rounded-xl border border-[#0099CC] bg-white/5 px-4 lg:px-6 py-3 backdrop-blur-md">
+    <nav className="hidden md:flex max-w-full overflow-hidden items-center gap-4 lg:gap-8 xl:gap-12 rounded-xl border border-[#0099CC] bg-white/5 px-4 lg:px-6 py-3 backdrop-blur-md">
 
       {navItems.map((item) => (
         <NavItem
@@ -120,9 +155,8 @@ function MobileToggle({ open, setOpen }) {
 function MobileMenu({ open, setOpen }) {
   return (
     <div
-      className={`fixed inset-0 z-40 bg-[#05030f] transition-transform duration-300 md:hidden ${
-        open ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`fixed inset-0 z-40 bg-[#05030f] transition-transform duration-300 md:hidden ${open ? "translate-x-0" : "translate-x-full"
+        }`}
     >
       <div className="p-8 space-y-6">
         {navItems.map((item) => (

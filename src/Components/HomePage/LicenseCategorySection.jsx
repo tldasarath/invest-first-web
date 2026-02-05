@@ -88,7 +88,7 @@ const LicenseCategorySection = () => {
                 <LicenseCategoryMobile data={licenseData} />
 
                 {/* Desktop View (lg+) */}
-                <div ref={containerRef} className="hidden lg:flex flex-col gap-6 max-w-7xl mx-auto relative z-10">
+                <div ref={containerRef} className="hidden lg:flex flex-col gap-6  relative z-10">
                     {licenseData.map((item) => (
                         <div
                             key={item.id}

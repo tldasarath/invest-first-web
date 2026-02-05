@@ -10,7 +10,7 @@ const Banner = () => {
     return (
         <section className="w-full py-10 md:py-20">
             <Container>
-                <div className="relative max-w-7xl mx-auto rounded-3xl bg-[#660033] overflow-hidden">
+                <div className="relative  rounded-3xl bg-[#660033] overflow-hidden">
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-6">
 

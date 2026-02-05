@@ -44,59 +44,8 @@ body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-.gallery {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: transparent;
-  /* Background handled by parent or gradient */
-  perspective: none;
-  /* Deep perspective for 3D effect */
+.fill-word {
+  display: inline;
+  white-space: normal;
 }
 
-.cards {
-  position: absolute;
-  width: 16rem;
-  /* Slightly wider for logos */
-  height: 10rem;
-  /* Shorter for logo branding cards */
-  top: 50%;
-  left: 50%;
-  transform-style: preserve-3d;
-  /* transform: translate(-50%, -50%) rotateZ(-12deg) rotateX(10deg);  The JS loop overrides transform, we need to handle tilt via a wrapper or Apply it to the container if possible. 
-     Actually, GSAP Draggable/ScrollTrigger modifies the list items usually. 
-     But here the loop moves .cards children. 
-     Let's tilt the UL itself. 
-  */
-  transform: translate(-50%, -50%);
-  /* Strictly flat horizontal */
-  /* Note: GSAP might overwrite transform if it targets .cards. The JS targets ".cards li". So this is safe. */
-}
-
-.cards li {
-  list-style: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
-  /* Remove background image props */
-}
-
-.actions {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 1rem;
-  z-index: 100;
-}
-
-.drag-proxy {
-  visibility: hidden;
-  position: absolute;
-}
