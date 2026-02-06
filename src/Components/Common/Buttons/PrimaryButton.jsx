@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export default function PrimaryButton({ text = "Button", url = "/" }) {
-  return (
-    <Link href={url}>
-      <button
-        className="
+export default function PrimaryButton({ text = "Button", url, onClick }) {
+  const content = (
+    <button
+      onClick={onClick}
+      className="
           mt-4 w-fit flex items-center gap-3 rounded-full
           px-10 py-2.5 text-lg font-medium text-white
           transition-all duration-300
@@ -15,10 +15,15 @@ export default function PrimaryButton({ text = "Button", url = "/" }) {
           hover:shadow-[0_0_40px_rgba(27,124,156,0.9)]
           active:scale-95
         "
-      >
-        {text}
-        <span className="text-2xl">→</span>
-      </button>
-    </Link>
+    >
+      {text}
+      <span className="text-2xl">→</span>
+    </button>
   );
+
+  if (url) {
+    return <Link href={url}>{content}</Link>;
+  }
+
+  return content;
 }

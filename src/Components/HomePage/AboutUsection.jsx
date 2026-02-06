@@ -7,6 +7,7 @@ import GradientCard from "../Animations/GradientCard";
 import Container from "../Common/Layout/Contianer";
 import ImageCard from "../cards/ImageCard";
 import PrimaryButton from "../Common/Buttons/PrimaryButton";
+import SectionTag from "../Common/SectionTag";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -139,9 +140,8 @@ export default function AboutUsection() {
                         </div>
 
                         <div className="animate-text flex flex-col justify-center">
-                            <h3 className="text-cyan-500 font-semibold tracking-widest text-sm uppercase mb-3">
-                                » ABOUT US «
-                            </h3>
+                            <SectionTag text="ABOUT US" />
+
 
                             <h3 className="animate-fill-text text-xl md:text-3xl leading-normal md:leading-[40px] max-w-3xl mb-8 font-semibold">
                                 Invest First is trusted business setup consultants UAE, delivering

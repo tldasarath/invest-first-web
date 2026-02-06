@@ -2,11 +2,47 @@
 import React from "react";
 import Image from "next/image";
 import Container from "../Common/Layout/Contianer";
-import { visaData } from "@/data/VisaData";
+import { visaSectionData } from "@/data/VisaData";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const VisaServices = () => {
+    const sectionRef = React.useRef(null);
     const sliderRef = React.useRef(null);
     const [isPaused, setIsPaused] = React.useState(false);
+
+    React.useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const ctx = gsap.context(() => {
+            gsap.from(".visa-header", {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 75%",
+                    toggleActions: "play reverse play reverse"
+                }
+            });
+
+            gsap.from(".visa-slider", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 75%",
+                    toggleActions: "play reverse play reverse"
+                }
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
 
     // Refs for drag functionality
     const isDown = React.useRef(false);
@@ -62,20 +98,18 @@ const VisaServices = () => {
     };
 
     return (
-        <section className="w-full py-16 md:py-24 bg-[#00040F] text-white">
+        <section ref={sectionRef} className="w-full py-16 md:py-24 bg-[#00040F] text-white">
             <Container>
                 {/* Header- Centered */}
-                <div className="text-center mb-12 space-y-4">
-                    <h2 className="text-3xl md:text-5xl font-bold">Visa Services</h2>
+                <div className="text-center mb-12 space-y-4 visa-header">
+                    <h2 className="text-3xl md:text-4xl font-bold">{visaSectionData.heading}</h2>
                     <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
-                        Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-                        turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus
-                        nec
+                        {visaSectionData.description}
                     </p>
                 </div>
 
                 {/* Slider Container - Hybrid (Auto + Manual Drag) */}
-                <div className="relative w-full overflow-hidden pb-12 pt-4 px-4 -mx-4 md:mx-0">
+                <div className="relative w-full overflow-hidden pb-12 pt-4 px-4 -mx-4 md:mx-0 visa-slider">
                     <div
                         ref={sliderRef}
                         className="flex overflow-x-auto no-scrollbar gap-6 cursor-grab active:cursor-grabbing"
@@ -88,7 +122,7 @@ const VisaServices = () => {
                         onTouchEnd={() => setIsPaused(false)}
                     >
                         {/* Duplicate data for seamless looping */}
-                        {[...visaData, ...visaData].map((visa, index) => (
+                        {[...visaSectionData.visaList, ...visaSectionData.visaList].map((visa, index) => (
                             <div
                                 key={`${visa.id}-${index}`}
                                 className="relative w-[300px] md:w-[350px] shrink-0 flex flex-col group select-none"
@@ -108,10 +142,7 @@ const VisaServices = () => {
                                 </div>
 
                                 {/* 2. The Shape Connector (Hump) */}
-                                <div className="relative w-full h-[60px] -mt-[60px] z-10 flex items-end">
-                                    {/* Left Shoulder */}
-                                    <div className="flex-1 h-[1.5px] bg-[#0099CC]" />
-
+                                <div className="relative w-full h-[60px] -mt-[100px] -mb-[2px] z-30 flex items-end justify-center">
                                     {/* Center Hump SVG */}
                                     <div className="relative w-[280px] h-[60px] shrink-0">
                                         <svg
@@ -139,13 +170,10 @@ const VisaServices = () => {
                                             <h3 className="text-xl font-semibold text-white whitespace-nowrap">{visa.title}</h3>
                                         </div>
                                     </div>
-
-                                    {/* Right Shoulder */}
-                                    <div className="flex-1 h-[1.5px] bg-[#0099CC]" />
                                 </div>
 
                                 {/* 3. Bottom Text Content */}
-                                <div className="bg-[#030F26] p-6 pt-2 rounded-b-3xl border-l-[1.5px] border-r-[1.5px] border-b-[1.5px] border-[#0099CC] flex-grow">
+                                <div className="relative z-20 bg-[#030F26] p-6 pt-2 rounded-3xl border-[1.5px] border-[#0099CC] grow">
                                     <p className="text-gray-300 text-sm text-center leading-relaxed">
                                         {visa.description}
                                     </p>

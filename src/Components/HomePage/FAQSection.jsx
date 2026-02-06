@@ -3,32 +3,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
+import SectionTag from "../Common/SectionTag";
 import Container from "../Common/Layout/Contianer";
 
 // FAQ Data from the image
-const faqData = [
-    {
-        question: "How does company formation UAE process work step by step?",
-        answer: "The company formation process involves initial approval, trade name reservation, document submission, and final license issuance."
-    },
-    {
-        question: "What are benefits of offshore company setup UAE for investors?",
-        answer: "Offshore setup offers asset protection, tax efficiency, global operations, and privacy without physical office requirements."
-    },
-    {
-        question: "How is UAE mainland company setup different from Freezones businesses?",
-        answer: "Mainland companies can trade directly within the UAE market, while Freezone companies are generally restricted to trading within the Freezone or internationally."
-    },
-    {
-        question: "Who is eligible for UAE Freezone business setup options today?",
-        answer: "Most international investors and freelancers are eligible, subject to specific activity regulations and visa requirements of the chosen Freezone."
-    },
-    {
-        question: "How can I apply for UAE family visa services online?",
-        answer: "You can apply through the official government portals like ICP or GDRFA, or enlist the help of a PRO service provider to manage the documentation and application process."
-    }
-];
+import { faqSectionData } from "../../data/FAQData";
 
+// FAQ Data from the image
 export default function FAQSection() {
     const [openIndex, setOpenIndex] = useState(1);
     const containerRef = useRef(null);
@@ -84,15 +65,13 @@ export default function FAQSection() {
     };
 
     return (
-        <section className="py-20 bg-[#050505] text-white">
+        <section className="md:py-20 py-10 bg-[#050505] text-white">
             <Container>
                 {/* Row 1: Heading Section */}
                 <div className="mb-12">
-                    <div className="flex items-center gap-2 mb-4">
-                        <span className="text-[#007CC4] text-lg font-bold tracking-widest">» FAQ «</span>
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold leading-tight w-full max-w-xl">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                    <SectionTag text="FAQ" />
+                    <h2 className="text-3xl md:text-4xl font-semibold leading-tight w-full max-w-xl">
+                        {faqSectionData.heading}
                     </h2>
                 </div>
 
@@ -100,38 +79,41 @@ export default function FAQSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
 
                     {/* LEFT: Image - SVG Cutout Implementation */}
-                    <div ref={containerRef} className="relative w-full min-h-[400px] h-full drop-shadow-lg">
+                    <div ref={containerRef} className="relative w-full h-[400px] md:h-auto drop-shadow-lg">
 
-                        {/* SVG Displaying the clipped Image */}
-                        {w > 0 && (
-                            <svg width={w} height={h} className="block w-full h-full">
-                                <defs>
-                                    <clipPath id="faqImageClip">
-                                        <path d={imageClipPath} />
-                                    </clipPath>
-                                </defs>
-                                <image
-                                    href="/assets/images/faq_person_working.png"
-                                    width={w}
-                                    height={h}
-                                    preserveAspectRatio="xMidYMid slice"
-                                    clipPath="url(#faqImageClip)"
-                                />
-                            </svg>
-                        )}
+                        {/* Absolute wrapper to ensure content fills the grid cell height defined by the Accordion */}
+                        <div className="absolute inset-0 w-full h-full">
+                            {/* SVG Displaying the clipped Image */}
+                            {w > 0 && (
+                                <svg width={w} height={h} className="block w-full h-full">
+                                    <defs>
+                                        <clipPath id="faqImageClip">
+                                            <path d={imageClipPath} />
+                                        </clipPath>
+                                    </defs>
+                                    <image
+                                        href="/assets/images/faq_person_working.png"
+                                        width={w}
+                                        height={h}
+                                        preserveAspectRatio="xMidYMid slice"
+                                        clipPath="url(#faqImageClip)"
+                                    />
+                                </svg>
+                            )}
 
-                        {/* Floating Stats/Badge */}
-                        <div className="absolute bottom-0 right-0 bg-[#050505] w-32 h-32 md:w-40 md:h-40 flex items-center justify-center rounded-tl-3xl p-3">
-                            <div className="w-full h-full bg-[#122130] rounded-xl flex flex-col items-center justify-center">
-                                <h3 className="text-3xl md:text-4xl font-extrabold text-white">FAQ</h3>
-                                <HelpCircle className="mt-2 text-[#7A1245]" size={32} />
+                            {/* Floating Stats/Badge */}
+                            <div className="absolute bottom-0 right-0 bg-[#050505] w-32 h-32 md:w-40 md:h-40 flex items-center justify-center rounded-tl-3xl p-3">
+                                <div className="w-full h-full bg-[#122130] rounded-xl flex flex-col items-center justify-center">
+                                    <h3 className="text-3xl md:text-4xl font-extrabold text-white">FAQ</h3>
+                                    <HelpCircle className="mt-2 text-[#7A1245]" size={32} />
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* RIGHT COLUMN: Accordion */}
                     <div className="flex flex-col gap-4 mt-8 md:mt-0">
-                        {faqData.map((item, index) => {
+                        {faqSectionData.faqItems.map((item, index) => {
                             const isOpen = openIndex === index;
                             return (
                                 <div

@@ -3,10 +3,11 @@ import { useLayoutEffect, useRef } from "react"; // Changed useEffect to useLayo
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LicenseCategoryMobile from "./LicenseCategoryMobile";
-import { licenseData } from "@/data/LicenseData";
+import { licenseSectionData } from "@/data/LicenseData";
 import Container from "../Common/Layout/Contianer";
 import Image from "next/image";
 import Banner from "./Banner";
+import SectionTag from "../Common/SectionTag";
 
 const LicenseCategorySection = () => {
     const containerRef = useRef(null);
@@ -76,20 +77,23 @@ const LicenseCategorySection = () => {
             <Container>
                 {/* Header */}
                 <div className="text-center mb-16 relative z-10">
-                    <p className="text-blue-500 tracking-widest text-base md:text-lg uppercase mb-2">
-                        &raquo; License category &laquo;
-                    </p>
-                    <h2 className="text-2xl md:text-3xl font-semibold text-white leading-tight max-w-lg mx-auto">
-                        Explore UAE Business License Categories Choose a license that fits your business objectives
+                    <div className="flex items-center justify-center">
+
+                        <SectionTag text="License category" />
+
+                    </div>
+
+                    <h2 className="text-3xl md:text-4xl font-semibold text-white leading-tight max-w-lg mx-auto">
+                        {licenseSectionData.heading}
                     </h2>
                 </div>
 
                 {/* Mobile/Tablet View (sm/md) */}
-                <LicenseCategoryMobile data={licenseData} />
+                <LicenseCategoryMobile data={licenseSectionData.licenseList} />
 
                 {/* Desktop View (lg+) */}
                 <div ref={containerRef} className="hidden lg:flex flex-col gap-6  relative z-10">
-                    {licenseData.map((item) => (
+                    {licenseSectionData.licenseList.map((item) => (
                         <div
                             key={item.id}
                             className="group flex flex-col md:flex-row items-stretch rounded-3xl overflow-hidden"
