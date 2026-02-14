@@ -1,6 +1,8 @@
 export const freezoneData = {
     subHeading: "Freezones",
     heading: "Explore UAE Freezones across Dubai, Abu Dhabi, and Northern Emirates offering flexible, cost-effective business setup options.",
+    leftBgImage: "/assets/images/shapes/left-lines.png",
+    rightBgImage: "/assets/images/shapes/right-lines.png",
     categories: [
         {
             id: "dubai",

@@ -1,5 +1,6 @@
 export const testimonialsData = {
     heading: "Client Success Stories",
+    leftBgImage: "/assets/images/shapes/left-lines.png",
     testimonials: [
         {
             id: 1,

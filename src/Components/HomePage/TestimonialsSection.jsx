@@ -6,6 +6,7 @@ import SectionTag from "../Common/SectionTag";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 import { testimonialsData } from "../../data/TestimonialsData";
+import Image from "next/image";
 
 const TestimonialCard = ({ item }) => {
     const containerRef = useRef(null);
@@ -187,64 +188,74 @@ export default function TestimonialsSection() {
     const sliderItems = [...testimonialsData.testimonials, ...testimonialsData.testimonials];
 
     return (
-        <section className="md:py-20 py-10 bg-[#000F2B] relative overflow-hidden">
+        <section className="md:py-20 py-10  relative overflow-hidden">
             {/* Background Decorative Elements */}
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
-                <svg className="absolute top-0 left-0 h-full w-auto" viewBox="0 0 500 800" fill="none">
-                    <path d="M-50 0 C 100 200, 100 600, -50 800" stroke="#007CC4" strokeWidth="2" fill="none" opacity="0.3" />
-                    <path d="M-80 0 C 70 200, 70 600, -80 800" stroke="#007CC4" strokeWidth="2" fill="none" opacity="0.2" />
-                    <path d="M-110 0 C 40 200, 40 600, -110 800" stroke="#007CC4" strokeWidth="2" fill="none" opacity="0.1" />
-                </svg>
-            </div>
 
-            <Container className="overflow-visible">
-                {/* Header with Buttons */}
-                <div className="mb-12 relative z-10 pl-2 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div>
-                        <SectionTag text="Testimonials" />
-                        <h2 className="text-3xl md:text-4xl font-semibold text-white mt-4">
-                            {testimonialsData.heading}
-                        </h2>
-                    </div>
 
-                    {/* Navigation Buttons */}
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={() => { handleInteractionStart(); slidePrev(); handleInteractionEnd(); }}
-                            className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#007CC4] transition-colors text-white group"
-                        >
-                            <ChevronLeft className="group-hover:scale-110 transition-transform" size={24} />
-                        </button>
-                        <button
-                            onClick={() => { handleInteractionStart(); slideNext(); handleInteractionEnd(); }}
-                            className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#007CC4] transition-colors text-white group"
-                        >
-                            <ChevronRight className="group-hover:scale-110 transition-transform" size={24} />
-                        </button>
-                    </div>
+            {/* <Container className="overflow-visible"> */}
+            <div className="bg-[#000F2B] mx-4 md:mx-6 lg:mx-12 relative overflow-hidden rounded-[20px]">
+                <div className="hidden md:block absolute inset-0 z-0 pointer-events-none">
+                    {testimonialsData.leftBgImage && (
+                        <Image
+                            src={testimonialsData.leftBgImage}
+                            alt="Background Left"
+                            width={800}
+                            height={800}
+                            className="absolute left-0 top-0 h-full w-[320px] md:w-[500px]  object-cover object-left"
+                        />
+                    )}
+
                 </div>
+                <div className="py-6 md:py-8 px-4 sm:px-6 lg:px-8 xl:px-[10%] ">
+                    {/* Header with Buttons */}
+                    <div className="mb-12 relative z-10 pl-2 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <SectionTag text="Testimonials" />
+                            <h2 className="text-3xl md:text-4xl font-semibold text-white mt-4">
+                                {testimonialsData.heading}
+                            </h2>
+                        </div>
 
-                {/* Slider Wrapper */}
-                <div
-                    className="w-full overflow-hidden"
-                    onMouseEnter={handleInteractionStart}
-                    onMouseLeave={handleInteractionEnd}
-                >
-                    <div
-                        ref={wrapperRef}
-                        className="flex gap-6 w-max items-stretch"
-                    >
-                        {sliderItems.map((item, index) => (
-                            <div
-                                key={`${item.id}-${index}`}
-                                className="w-[260px] md:w-[400px] shrink-0 select-none"
+                        {/* Navigation Buttons */}
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => { handleInteractionStart(); slidePrev(); handleInteractionEnd(); }}
+                                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#007CC4] transition-colors text-white group"
                             >
-                                <TestimonialCard item={item} />
-                            </div>
-                        ))}
+                                <ChevronLeft className="group-hover:scale-110 transition-transform" size={24} />
+                            </button>
+                            <button
+                                onClick={() => { handleInteractionStart(); slideNext(); handleInteractionEnd(); }}
+                                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#007CC4] transition-colors text-white group"
+                            >
+                                <ChevronRight className="group-hover:scale-110 transition-transform" size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Slider Wrapper */}
+                    <div
+                        className="w-full overflow-hidden"
+                        onMouseEnter={handleInteractionStart}
+                        onMouseLeave={handleInteractionEnd}
+                    >
+                        <div
+                            ref={wrapperRef}
+                            className="flex gap-6 w-max items-stretch"
+                        >
+                            {sliderItems.map((item, index) => (
+                                <div
+                                    key={`${item.id}-${index}`}
+                                    className="w-[260px] md:w-[400px] shrink-0 select-none"
+                                >
+                                    <TestimonialCard item={item} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </Container>
+            </div>
+            {/* </Container> */}
         </section>
     );
 }

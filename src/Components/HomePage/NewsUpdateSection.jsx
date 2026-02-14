@@ -137,57 +137,59 @@ const NewsUpdateSection = () => {
     };
 
     return (
-        <section className="md:py-20 py-10 bg-linear-to-b from-[#14293A] to-[#0B223E] text-white relative overflow-hidden">
+        <section className="md:py-20 py-10 relative overflow-hidden">
             {/* Background Decoration (Top Left Lines) */}
-            <div className="absolute top-0 left-0 w-64 h-64 opacity-20 pointer-events-none">
-                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none">
-                    <path d="M-50 200 Q 50 100 200 -50" stroke="white" strokeWidth="1" />
-                    <path d="M-30 200 Q 70 100 220 -50" stroke="white" strokeWidth="1" />
-                    <path d="M-10 200 Q 90 100 240 -50" stroke="white" strokeWidth="1" />
-                    <path d="M10 200 Q 110 100 260 -50" stroke="white" strokeWidth="1" />
-                </svg>
-            </div>
-
-            <Container>
+            <div className="mx-4 md:mx-6 lg:mx-12 bg-linear-to-b from-[#14293A] to-[#0B223E] rounded-[40px] overflow-hidden relative">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                    <div className="text-center md:text-left w-full relative">
-                        {/* Centered Heading Group */}
-                        <div className="flex flex-col items-center justify-center w-full">
-                            <SectionTag text={newsData.subHeading} />
-                            <h2 className="text-3xl md:text-4xl font-semibold">
-                                " {newsData.heading}"
-                            </h2>
-                        </div>
+                <div className="py-6 md:py-8 px-4 sm:px-6 lg:px-8 xl:px-[10%] w-full relative">
+                    <div className="absolute top-0 left-0 pointer-events-none">
+                        <Image
+                            src="/assets/images/shapes/top-left-lines.png"
+                            alt="Top Left Decoration"
+                            width={300}
+                            height={300}
+                            className="object-contain"
+                        />
+                    </div>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                        <div className="text-center md:text-left w-full relative">
+                            {/* Centered Heading Group */}
+                            <div className="flex flex-col items-center justify-center w-full">
+                                <SectionTag text={newsData.subHeading} />
+                                <h2 className="text-3xl md:text-4xl font-semibold">
+                                    " {newsData.heading}"
+                                </h2>
+                            </div>
 
-                        {/* Navigation Buttons (Absolute Right on Desktop) */}
-                        <div className="md:absolute right-0 bottom-0 flex items-center justify-end gap-3 mt-6 md:mt-0">
-                            <button
-                                onClick={() => scroll('left')}
-                                className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#007CC4] hover:border-[#007CC4] transition-all"
-                            >
-                                <ChevronLeft size={20} />
-                            </button>
-                            <button
-                                onClick={() => scroll('right')}
-                                className="w-10 h-10 rounded-full bg-[#000F2B] border border-gray-600 flex items-center justify-center hover:bg-[#007CC4] hover:border-[#007CC4] transition-all"
-                            >
-                                <ChevronRight size={20} />
-                            </button>
+                            {/* Navigation Buttons (Absolute Right on Desktop) */}
+                            <div className="md:absolute right-0 bottom-0 flex items-center justify-end gap-3 mt-6 md:mt-0">
+                                <button
+                                    onClick={() => scroll('left')}
+                                    className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center hover:bg-[#007CC4] hover:border-[#007CC4] transition-all"
+                                >
+                                    <ChevronLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={() => scroll('right')}
+                                    className="w-10 h-10 rounded-full bg-[#000F2B] border border-gray-600 flex items-center justify-center hover:bg-[#007CC4] hover:border-[#007CC4] transition-all"
+                                >
+                                    <ChevronRight size={20} />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Cards Slider */}
-                <div
-                    ref={scrollContainerRef}
-                    className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory"
-                >
-                    {newsData.newsItems.map((item) => (
-                        <NewsCard key={item.id} item={item} />
-                    ))}
+                    {/* Cards Slider */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory"
+                    >
+                        {newsData.newsItems.map((item) => (
+                            <NewsCard key={item.id} item={item} />
+                        ))}
+                    </div>
                 </div>
-            </Container>
+            </div>
 
 
 

@@ -18,6 +18,7 @@ export const metadata = {
 };
 
 import { Toaster } from "react-hot-toast";
+import Footer from "@/Components/Common/Footer/Footer";
 
 export default function RootLayout({ children }) {
   return (
@@ -28,6 +29,8 @@ export default function RootLayout({ children }) {
         <Toaster position="top-right" />
         <Navbar />
         {children}
+                <Footer />
+
       </body>
     </html>
   );

@@ -7,11 +7,11 @@ import Container from "../Layout/Contianer"
 
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "About Us", href: "#" },
+  { name: "About Us", href: "/about-us" },
   { name: "Company Formation", href: "#" },
   { name: "Services", href: "#" },
   { name: "Resources", href: "#" },
-  { name: "Contact Us", href: "#" },
+  { name: "Contact Us", href: "/contact-us" },
 ]
 
 export default function Navbar() {
